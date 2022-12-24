@@ -18,8 +18,7 @@ class _AnimatedDefaultTextStylePageState extends State<AnimatedDefaultTextStyleP
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        alignment: Alignment.center,
+      body: Center(
         child: Transform.rotate(
           angle: -math.pi / 3,
           child: Container(

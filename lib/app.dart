@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:animations/animations/code_based/buttons/buttons.dart';
-import 'package:animations/animations/drawing_based/rive/sign_in.dart';
+import 'package:animations/animations/drawing_based/rive/rive_animation.dart';
 import 'package:animations/practice/basic/simple_container_animations.dart';
 
 class App extends StatelessWidget {
