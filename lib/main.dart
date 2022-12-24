@@ -1,4 +1,4 @@
-import 'package:animations/animations/code_based/implicit/animations/animatedContainer.dart';
+import 'package:animations/animations/code_based/implicit/animations/animatedAlign.dart';
 import 'package:animations/scroll_behavior.dart';
 import 'package:flutter/material.dart';
 
@@ -13,7 +13,7 @@ void main() {
       // debugShowMaterialGrid: true,
       scrollBehavior: ScrollBehaviour(),
       theme: ThemeData.dark(),
-      home: const AnimatedContainerPage(),
+      home: const AnimatedAlignPage(),
     ),
   );
 }
