@@ -46,7 +46,7 @@ class _Simple3DButtonState extends State<Simple3DButton> {
                 height: height,
                 width: 200,
                 decoration: const BoxDecoration(
-                  color: Colors.black,
+                  color: Colors.black45,
                   borderRadius: BorderRadius.all(Radius.circular(16)),
                 ),
               ),

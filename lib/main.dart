@@ -3,6 +3,14 @@ import 'package:flutter/material.dart';
 import 'app.dart';
 
 void main() {
-  runApp(const MaterialApp(home: App()));
+  runApp(
+    MaterialApp(
+      debugShowCheckedModeBanner: false,
+      // showPerformanceOverlay: true,
+      // showSemanticsDebugger: true,
+      // debugShowMaterialGrid: true,
+      theme: ThemeData.dark(),
+      home: const App(),
+    ),
+  );
 }
-
