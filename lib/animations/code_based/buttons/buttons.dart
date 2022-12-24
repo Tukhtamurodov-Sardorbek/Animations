@@ -1,4 +1,4 @@
-import 'package:animations/animations/buttons/animations/simple3D.dart';
+import 'package:animations/animations/code_based/buttons/animations/simple3D.dart';
 import 'package:flutter/material.dart';
 
 class ButtonsPage extends StatefulWidget {

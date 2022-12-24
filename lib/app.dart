@@ -1,7 +1,7 @@
-import 'package:animations/animations/buttons/buttons.dart';
-import 'package:animations/animations/rive/sign_in.dart';
-import 'package:animations/practice/basic/simple_container_animations.dart';
 import 'package:flutter/material.dart';
+import 'package:animations/animations/code_based/buttons/buttons.dart';
+import 'package:animations/animations/drawing_based/rive/sign_in.dart';
+import 'package:animations/practice/basic/simple_container_animations.dart';
 
 class App extends StatelessWidget {
   const App({super.key});

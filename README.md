@@ -4,6 +4,7 @@
 - [Material App Components](https://www.mo4tech.com/flutter-profound-and-simple-components-materialapp.html)
 
 - [Animation basics](https://flexiple.com/app/basics-of-flutter-animations/)
+- [Animations](https://blog.logrocket.com/adding-animations-to-your-flutter-app/)
 
 - [Teddy Sign in](https://github.com/GJJ2019/Flutter-Teddy-SignIn)
 - [Simple 3D button animation](https://emadeddin-eibo.medium.com/create-simple-3d-button-animation-with-flutter-d1cee2fedaf5)
@@ -11,7 +12,7 @@
 
 ###  Code Animations
 
-|         Implicit         | Explicit |
+| Implicit | Explicit |
 | :------------ |:------------:|
 | [AnimatedAlign           ](https://api.flutter.dev/flutter/widgets/AnimatedAlign-class.html) | [CupertinoPageTransition](https://api.flutter.dev/flutter/cupertino/CupertinoPageTransition-class.html) |
 | [AnimatedBuilder         ](https://api.flutter.dev/flutter/widgets/AnimatedBuilder-class.html) | [DecoratedBoxTransition ](https://api.flutter.dev/flutter/widgets/DecoratedBoxTransition-class.html) |
@@ -22,12 +23,11 @@
 | [AnimatedListState       ](https://api.flutter.dev/flutter/widgets/AnimatedListState-class.html) | [ScaleTransition        ](https://api.flutter.dev/flutter/widgets/ScaleTransition-class.html) |
 | [AnimatedModalBarrier    ](https://api.flutter.dev/flutter/widgets/AnimatedModalBarrier-class.html) | [SizeTransition         ](https://api.flutter.dev/flutter/widgets/SizeTransition-class.html) |
 | [AnimatedOpacity         ](https://api.flutter.dev/flutter/widgets/AnimatedOpacity-class.html) | [SlideTransition        ](https://api.flutter.dev/flutter/widgets/SlideTransition-class.html) |
-| [AnimatedPhysicalModel   ](https://api.flutter.dev/flutter/widgets/AnimatedPhysicalModel-class.html) | |
+| [AnimatedPhysicalModel   ](https://api.flutter.dev/flutter/widgets/AnimatedPhysicalModel-class.html) | [StatusTransitionWidget](https://api.flutter.dev/flutter/widgets/StatusTransitionWidget-class.html) |
 | [AnimatedPositioned      ](https://api.flutter.dev/flutter/widgets/AnimatedPositioned-class.html) | |
 | [AnimatedSize            ](https://api.flutter.dev/flutter/widgets/AnimatedSize-class.html) | |
 | [AnimatedWidget          ](https://api.flutter.dev/flutter/widgets/AnimatedWidget-class.html) | |
 | [AnimatedWidgetBaseState ](https://api.flutter.dev/flutter/widgets/AnimatedWidgetBaseState-class.html) | |
-|  |  |
 
 
 ###  Drawing Animations
