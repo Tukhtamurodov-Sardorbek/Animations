@@ -33,5 +33,5 @@
 ###  Drawing Based Animations
 
 | Custom Painter  | Rive | Lottie |
-| :------------ |:------------:|
+| :------------ |:------------:| ------------:|
 | [CustomPaint](https://api.flutter.dev/flutter/widgets/CustomPaint-class.html) | [Rive](https://rive.app/) | [Lottie](https://lottiefiles.com/) |
