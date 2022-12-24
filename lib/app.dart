@@ -81,7 +81,6 @@ class HorizontalScrollView extends StatelessWidget {
       height: 90,
       margin: const EdgeInsets.symmetric(vertical: 2.0),
       child: Column(
-        // crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
             width: double.infinity,

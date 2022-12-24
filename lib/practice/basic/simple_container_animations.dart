@@ -8,9 +8,10 @@ class SimpleContainerAnimations extends StatefulWidget {
       _SimpleContainerAnimationsState();
 }
 
-class _SimpleContainerAnimationsState extends State<SimpleContainerAnimations> with TickerProviderStateMixin {
+class _SimpleContainerAnimationsState extends State<SimpleContainerAnimations> with SingleTickerProviderStateMixin {
   bool isPlaying = false;
-  late AnimationController animatedIconController;
+  Icon icon = const Icon(Icons.play_arrow, size: 30);
+
   late AnimationController containerAnimationController;
   late Animation iconColorAnimation;
   late Animation colorAnimation;
@@ -22,11 +23,9 @@ class _SimpleContainerAnimationsState extends State<SimpleContainerAnimations> w
     super.initState();
 
     // * Controllers
-    animatedIconController = AnimationController(vsync: this, duration: const Duration(milliseconds: 250));
     containerAnimationController = AnimationController(vsync: this, duration: const Duration(milliseconds: 1200));
 
     // * Animations
-    iconColorAnimation = ColorTween(begin: Colors.deepPurple.shade600, end: Colors.purpleAccent).animate(animatedIconController);
     colorAnimation = ColorTween(begin: Colors.purpleAccent, end: Colors.deepPurple.shade600).animate(containerAnimationController);
     sizeAnimation = SizeTween(begin: const Size(150, 150), end: const Size(300, 300)).animate(containerAnimationController);
     borderRadiusAnimation = BorderRadiusTween(begin: BorderRadius.circular(10), end: BorderRadius.circular(50)).animate(containerAnimationController);
@@ -45,6 +44,7 @@ class _SimpleContainerAnimationsState extends State<SimpleContainerAnimations> w
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -92,25 +92,35 @@ class _SimpleContainerAnimationsState extends State<SimpleContainerAnimations> w
           ],
         ),
       ),
+
       floatingActionButton: FloatingActionButton(
         backgroundColor: colorAnimation.value,
         onPressed: () {
           isPlaying = !isPlaying;
           if (isPlaying) {
-            animatedIconController.forward();
+            icon = const Icon(Icons.replay, key: ValueKey(1), size: 30);
             containerAnimationController.forward();
           } else {
-            animatedIconController.reverse();
+            icon = const Icon(Icons.play_arrow, key: ValueKey(2), size: 30);
             containerAnimationController.reverse();
           }
         },
-        child: AnimatedIcon(
-          size: 30,
-          icon: AnimatedIcons.play_pause,
-          progress: animatedIconController,
-          color: iconColorAnimation.value,
+        child: AnimatedSwitcher(
+          duration: const Duration(milliseconds: 1200),
+          reverseDuration: const Duration(milliseconds: 1200),
+          transitionBuilder: (Widget child, Animation<double> animation){
+            return RotationTransition(
+              turns: animation,
+              child: ScaleTransition(
+                scale: animation,
+                child: child,
+              ),
+            );
+          },
+          child: icon,
         ),
       ),
+
     );
   }
 }
