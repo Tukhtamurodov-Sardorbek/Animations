@@ -14,7 +14,6 @@ class _ButtonsPageState extends State<ButtonsPage> {
     return Scaffold(
       body: SafeArea(
         child: CustomScrollView(
-          physics: const BouncingScrollPhysics(),
           slivers: [
             const SliverToBoxAdapter(child: SizedBox(height: 40)),
             SliverList(
