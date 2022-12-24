@@ -15,14 +15,13 @@ class _AnimatedCrossFadePageState extends State<AnimatedCrossFadePage> {
     return Scaffold(
       body: Center(
         child: AnimatedCrossFade(
-          firstCurve: Curves.easeInCubic,
-          secondCurve: Curves.easeInCubic,
+          firstCurve: Curves.easeOutBack,
+          secondCurve: Curves.easeInBack,
           sizeCurve: Curves.easeInCubic,
 
           duration: const Duration(milliseconds: 1200),
-          crossFadeState: showFirstChild
-              ? CrossFadeState.showFirst
-              : CrossFadeState.showSecond,
+          reverseDuration: const Duration(milliseconds: 1200),
+          crossFadeState: showFirstChild ? CrossFadeState.showFirst : CrossFadeState.showSecond,
 
           firstChild: const Center(
             child: Icon(
