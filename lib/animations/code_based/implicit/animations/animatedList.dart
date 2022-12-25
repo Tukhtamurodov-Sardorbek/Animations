@@ -18,7 +18,7 @@ class _AnimatedListPageState extends State<AnimatedListPage> {
       leading: const Icon(Icons.account_circle_outlined, size: 30, color: Colors.purpleAccent,),
       title: Text('Person $orderNumber', textAlign: TextAlign.center,),
       trailing: IconButton(
-        icon: const Icon(Icons.remove_circle, size: 30, color: CupertinoColors.destructiveRed,),
+        icon: Icon(Icons.remove_circle, size: 30, color: Colors.deepPurple.shade600,),
         onPressed: () {
           final index = list.indexOf(orderNumber);
           final number = list.removeAt(index);
@@ -48,12 +48,15 @@ class _AnimatedListPageState extends State<AnimatedListPage> {
       body: SafeArea(
         child: AnimatedList(
           key: _listKey,
-          padding: EdgeInsets.zero,
+          padding: const EdgeInsets.only(bottom: 76),
           initialItemCount: list.length,
           itemBuilder: (context, index, animation) {
-            return FadeTransition(
-              opacity: animation,
-              child: listTile(orderNumber: list[index]),
+            return SlideTransition(
+              position: Tween<Offset>(begin: const Offset(-1, 0), end: const Offset(0, 0)).animate(CurvedAnimation(parent: animation, curve: Curves.easeInOutCirc)),
+              child: FadeTransition(
+                opacity: animation,
+                child: listTile(orderNumber: list[index]),
+              ),
             );
           },
         ),
