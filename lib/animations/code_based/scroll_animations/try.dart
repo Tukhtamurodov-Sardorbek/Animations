@@ -18,19 +18,6 @@ class _TryPageState extends State<TryPage> {
         child: CustomScrollView(
           slivers: [
             SliverPersistentHeader(
-              delegate: MySliverAppBar(
-                title: 'Sample',
-                minWidth: 50,
-                minHeight: 25,
-                leftMaxWidth: 200,
-                leftMaxHeight: 100,
-                rightMaxWidth: 100,
-                rightMaxHeight: 50,
-                shrinkedTopPos: 10,
-              ),
-              pinned: true,
-            ),
-            SliverPersistentHeader(
                 pinned: true,
                 delegate: MySliver(
                   screenWidth: MediaQuery.of(context).size.width - 32,
@@ -94,6 +81,13 @@ class MySliver extends SliverPersistentHeaderDelegate {
       color: Colors.white,
       child: Stack(
         children: [
+          Align(
+            alignment: Alignment.topLeft,
+            child: IconButton(
+              onPressed: (){},
+              icon: const Icon(Icons.arrow_back, color: Colors.black,),
+            ),
+          ),
           titleWidget(tween: percent, width: pickerWidth),
           dateRangePicker(tween: percent, width: pickerWidth),
         ],
@@ -102,23 +96,25 @@ class MySliver extends SliverPersistentHeaderDelegate {
   }
 
 
-  double titleWidth() {
-    final TextPainter textPainter = TextPainter(
-      text: TextSpan(text: title, style: titleStyle),
-      maxLines: 1,
-      textDirection: TextDirection.ltr,
-    )..layout(minWidth: 0, maxWidth: double.infinity);
-    return textPainter.size.width;
-  }
+  // double titleWidth() {
+  //   final TextPainter textPainter = TextPainter(
+  //     text: TextSpan(text: title, style: titleStyle),
+  //     maxLines: 1,
+  //     textDirection: TextDirection.ltr,
+  //   )..layout(minWidth: 0, maxWidth: double.infinity);
+  //   return textPainter.size.width;
+  // }
 
   Widget titleWidget({required double width, required double tween}){
-
-    return AnimatedContainer(
-      duration: const Duration(milliseconds: 600),
+    return Container(
       height: kToolbarHeight,
-      alignment: tween > 0 && tween < 1 ? Alignment.centerLeft : Alignment.center,
+      alignment: Alignment.center,
+      child: AnimatedOpacity(
+        duration: const Duration(milliseconds: 200),
+        opacity: tween > 0.4 && tween < 1 ? 0 : 1,
 
-      child: Text(title, style: titleStyle),
+        child: Text(title, style: titleStyle),
+      ),
     );
   }
 
@@ -130,7 +126,7 @@ class MySliver extends SliverPersistentHeaderDelegate {
       right: right,
       top: top,
       child: Container(
-        height: kToolbarHeight,
+        height: 50,
         width: width,
         decoration: width == iconDimension
             ? null
