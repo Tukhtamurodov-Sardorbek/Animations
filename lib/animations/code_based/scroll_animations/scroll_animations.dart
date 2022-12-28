@@ -91,7 +91,7 @@ class MySliverAppBar extends SliverPersistentHeaderDelegate {
   double? _centerX;
   Size? _titleSize;
 
-  double get _shrinkedTopPos => _topPadding! + shrinkedTopPos; // 10
+  double get _shrinkedTopPos => _topPadding! + shrinkedTopPos;
 
   @override
   Widget build(context, shrinkOffset, overlapsContent) {
@@ -104,15 +104,12 @@ class MySliverAppBar extends SliverPersistentHeaderDelegate {
 
     print('ShrinkOffset: $shrinkOffset');
     print('Overlaps Content: $overlapsContent');
-    return Container(
-      color: Colors.blueGrey,
-      child: Stack(
-        children: <Widget>[
-          _buildTitle(shrinkOffset),
-          _buildLeftImage(percent),
-          _buildRightImage(percent),
-        ],
-      ),
+    return Stack(
+      children: <Widget>[
+        _buildTitle(shrinkOffset),
+        _buildLeftImage(percent),
+        _buildRightImage(percent),
+      ],
     );
   }
 
@@ -128,7 +125,6 @@ class MySliverAppBar extends SliverPersistentHeaderDelegate {
   Widget _buildTitle(double shrinkOffset) => Align(
         alignment: Alignment.topCenter,
         child: Container(
-          color: Colors.purpleAccent,
           padding: EdgeInsets.only(top: _topPadding!),
           child: Opacity(
             opacity: shrinkOffset / maxExtent,
@@ -146,41 +142,37 @@ class MySliverAppBar extends SliverPersistentHeaderDelegate {
   /// 20 is the padding between the image and the title
   double get shrinkedHorizontalPos =>
       (_centerX! - (_titleSize!.width / 2)) - minWidth - 20;
-  // titleSize = 70
-  // 150 - 35 - 60 - 20 = 35
 
   Widget _buildLeftImage(double percent) {
-    final double topMargin = minExtent;// 50
-    final double rangeLeft = (_centerX! - (leftMaxWidth / 2)) - shrinkedHorizontalPos;
-    final double rangeTop = topMargin - _shrinkedTopPos; // 50 - 10
+    final double topMargin = minExtent;
+    final double rangeLeft =
+        (_centerX! - (leftMaxWidth / 2)) - shrinkedHorizontalPos;
+    final double rangeTop = topMargin - _shrinkedTopPos;
 
-    // final double top = topMargin - (rangeTop * percent); // 50 - 40 * 0...1 -> 50 ... 10
-    final double top = kToolbarHeight * (1 - percent); //
-    final double left = 16 * (1 - percent);
+    final double top = topMargin - (rangeTop * percent);
+    final double left =
+        (_centerX! - (leftMaxWidth / 2)) - (rangeLeft * percent);
 
     return Positioned(
       left: left,
       top: top,
       child: Container(
-        // width: getScaledWidth(leftMaxWidth, percent),
-        width: 300 - ((300 - 80) * percent),
-        height: kToolbarHeight,
+        width: getScaledWidth(leftMaxWidth, percent),
+        height: getScaledHeight(leftMaxHeight, percent),
         color: Colors.black,
       ),
     );
   }
 
   Widget _buildRightImage(double percent) {
-    final double topMargin = minExtent + (rightMaxHeight / 2); // 75
-    final double rangeTop = topMargin - _shrinkedTopPos; // 65
+    final double topMargin = minExtent + (rightMaxHeight / 2);
+    final double rangeRight =
+        (_centerX! - (rightMaxWidth / 2)) - shrinkedHorizontalPos;
+    final double rangeTop = topMargin - _shrinkedTopPos;
 
-    final double rangeRight = (_centerX! - (rightMaxWidth / 2)) - shrinkedHorizontalPos;
-    // 150 - 30 - 35 = 85
-
-    final double top = topMargin - (rangeTop * percent);// 75 - 65*0...1
-    final double right = (_centerX! - (rightMaxWidth / 2)) - (rangeRight * percent);
-                          // 150 - 30 - 0 ... 85 = 120 - 0 ... 85 = 120 ... 35
-
+    final double top = topMargin - (rangeTop * percent);
+    final double right =
+        (_centerX! - (rightMaxWidth / 2)) - (rangeRight * percent);
 
     return Positioned(
       right: right,
