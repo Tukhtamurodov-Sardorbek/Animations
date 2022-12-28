@@ -11,49 +11,51 @@ class TestAnimation extends StatefulWidget {
 class _TestAnimationState extends State<TestAnimation> {
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
-      body: CustomScrollView(
-        slivers: <Widget>[
-          SliverPersistentHeader(
-            delegate: MySliverAppBar(
-              title: 'Sample',
-              minWidth: 50,
-              minHeight: 25,
-              leftMaxWidth: 200,
-              leftMaxHeight: 100,
-              rightMaxWidth: 100,
-              rightMaxHeight: 50,
-              shrinkedTopPos: 10,
-            ),
-            pinned: true,
-          ),
-          TransitionAppBar(
-            // extent: 250,
-            extent: 300,
-            avatar: Container(
-              decoration: const BoxDecoration(
-                  image: DecorationImage(
-                      image: AssetImage(
-                          'assets/images/user-avatar.png'), // NetworkImage(user.imageUrl),
-                      fit: BoxFit.cover)),
-            ),
-            title: "Emmanuel Olu-Flourish",
-          ),
-          SliverList(
-            delegate: SliverChildBuilderDelegate(
-                  (_, int i) => Container(
-                height: 50,
-                color: Color.fromARGB(
-                  255,
-                  Random().nextInt(255),
-                  Random().nextInt(255),
-                  Random().nextInt(255),
-                ),
+    return Scaffold(
+      body: SafeArea(
+        child: CustomScrollView(
+          slivers: <Widget>[
+            SliverPersistentHeader(
+              delegate: MySliverAppBar(
+                title: 'Sample',
+                minWidth: 50,
+                minHeight: 25,
+                leftMaxWidth: 200,
+                leftMaxHeight: 100,
+                rightMaxWidth: 100,
+                rightMaxHeight: 50,
+                shrinkedTopPos: 10,
               ),
-              childCount: 50,
+              pinned: true,
             ),
-          ),
-        ],
+            // TransitionAppBar(
+            //   // extent: 250,
+            //   extent: 300,
+            //   avatar: Container(
+            //     decoration: const BoxDecoration(
+            //         image: DecorationImage(
+            //             image: AssetImage(
+            //                 'assets/images/user-avatar.png'), // NetworkImage(user.imageUrl),
+            //             fit: BoxFit.cover)),
+            //   ),
+            //   title: "Emmanuel Olu-Flourish",
+            // ),
+            SliverList(
+              delegate: SliverChildBuilderDelegate(
+                (_, int i) => Container(
+                  height: 50,
+                  color: Color.fromARGB(
+                    255,
+                    Random().nextInt(255),
+                    Random().nextInt(255),
+                    Random().nextInt(255),
+                  ),
+                ),
+                childCount: 50,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -89,10 +91,10 @@ class MySliverAppBar extends SliverPersistentHeaderDelegate {
   double? _centerX;
   Size? _titleSize;
 
-  double get _shrinkedTopPos => _topPadding! + shrinkedTopPos;
+  double get _shrinkedTopPos => _topPadding! + shrinkedTopPos; // 10
 
   @override
-  Widget build(BuildContext context, double shrinkOffset, bool overlapsContent,) {
+  Widget build(context, shrinkOffset, overlapsContent) {
     _topPadding ??= MediaQuery.of(context).padding.top;
     _centerX ??= MediaQuery.of(context).size.width / 2;
     _titleSize ??= _calculateTitleSize(title, titleStyle);
@@ -100,8 +102,10 @@ class MySliverAppBar extends SliverPersistentHeaderDelegate {
     double percent = shrinkOffset / (maxExtent - minExtent);
     percent = percent > 1 ? 1 : percent;
 
+    print('ShrinkOffset: $shrinkOffset');
+    print('Overlaps Content: $overlapsContent');
     return Container(
-      color: Colors.red,
+      color: Colors.blueGrey,
       child: Stack(
         children: <Widget>[
           _buildTitle(shrinkOffset),
@@ -114,61 +118,69 @@ class MySliverAppBar extends SliverPersistentHeaderDelegate {
 
   Size _calculateTitleSize(String text, TextStyle style) {
     final TextPainter textPainter = TextPainter(
-        text: TextSpan(text: text, style: style),
-        maxLines: 1,
-        textDirection: TextDirection.ltr)
-      ..layout(minWidth: 0, maxWidth: double.infinity);
+      text: TextSpan(text: text, style: style),
+      maxLines: 1,
+      textDirection: TextDirection.ltr,
+    )..layout(minWidth: 0, maxWidth: double.infinity);
     return textPainter.size;
   }
 
   Widget _buildTitle(double shrinkOffset) => Align(
-    alignment: Alignment.topCenter,
-    child: Padding(
-      padding: EdgeInsets.only(top: _topPadding!),
-      child: Opacity(
-        opacity: shrinkOffset / maxExtent,
-        child: Text(title, key: _titleKey, style: titleStyle),
-      ),
-    ),
-  );
+        alignment: Alignment.topCenter,
+        child: Container(
+          color: Colors.purpleAccent,
+          padding: EdgeInsets.only(top: _topPadding!),
+          child: Opacity(
+            opacity: shrinkOffset / maxExtent,
+            child: Text(title, key: _titleKey, style: titleStyle),
+          ),
+        ),
+      );
 
-  double getScaledWidth(double width, double percent) => width - ((width - minWidth) * percent);
+  double getScaledWidth(double width, double percent) =>
+      width - ((width - minWidth) * percent);
 
-  double getScaledHeight(double height, double percent) => height - ((height - minHeight) * percent);
+  double getScaledHeight(double height, double percent) =>
+      height - ((height - minHeight) * percent);
 
   /// 20 is the padding between the image and the title
-  double get shrinkedHorizontalPos => (_centerX! - (_titleSize!.width / 2)) - minWidth - 20;
+  double get shrinkedHorizontalPos =>
+      (_centerX! - (_titleSize!.width / 2)) - minWidth - 20;
+  // titleSize = 70
+  // 150 - 35 - 60 - 20 = 35
 
   Widget _buildLeftImage(double percent) {
-    final double topMargin = minExtent;
-    final double rangeLeft =
-        (_centerX! - (leftMaxWidth / 2)) - shrinkedHorizontalPos;
-    final double rangeTop = topMargin - _shrinkedTopPos;
+    final double topMargin = minExtent;// 50
+    final double rangeLeft = (_centerX! - (leftMaxWidth / 2)) - shrinkedHorizontalPos;
+    final double rangeTop = topMargin - _shrinkedTopPos; // 50 - 10
 
-    final double top = topMargin - (rangeTop * percent);
-    final double left =
-        (_centerX! - (leftMaxWidth / 2)) - (rangeLeft * percent);
+    // final double top = topMargin - (rangeTop * percent); // 50 - 40 * 0...1 -> 50 ... 10
+    final double top = kToolbarHeight * (1 - percent); //
+    final double left = 16 * (1 - percent);
 
     return Positioned(
       left: left,
       top: top,
       child: Container(
-        width: getScaledWidth(leftMaxWidth, percent),
-        height: getScaledHeight(leftMaxHeight, percent),
+        // width: getScaledWidth(leftMaxWidth, percent),
+        width: 300 - ((300 - 80) * percent),
+        height: kToolbarHeight,
         color: Colors.black,
       ),
     );
   }
 
   Widget _buildRightImage(double percent) {
-    final double topMargin = minExtent + (rightMaxHeight / 2);
-    final double rangeRight =
-        (_centerX! - (rightMaxWidth / 2)) - shrinkedHorizontalPos;
-    final double rangeTop = topMargin - _shrinkedTopPos;
+    final double topMargin = minExtent + (rightMaxHeight / 2); // 75
+    final double rangeTop = topMargin - _shrinkedTopPos; // 65
 
-    final double top = topMargin - (rangeTop * percent);
-    final double right =
-        (_centerX! - (rightMaxWidth / 2)) - (rangeRight * percent);
+    final double rangeRight = (_centerX! - (rightMaxWidth / 2)) - shrinkedHorizontalPos;
+    // 150 - 30 - 35 = 85
+
+    final double top = topMargin - (rangeTop * percent);// 75 - 65*0...1
+    final double right = (_centerX! - (rightMaxWidth / 2)) - (rangeRight * percent);
+                          // 150 - 30 - 0 ... 85 = 120 - 0 ... 85 = 120 ... 35
+
 
     return Positioned(
       right: right,
@@ -197,7 +209,8 @@ class TransitionAppBar extends StatelessWidget {
   final String title;
   final double extent;
 
-  const TransitionAppBar({required this.avatar, required this.title, this.extent = 250, Key? key})
+  const TransitionAppBar(
+      {required this.avatar, required this.title, this.extent = 250, Key? key})
       : super(key: key);
 
   @override
@@ -221,15 +234,16 @@ class _TransitionAppBarDelegate extends SliverPersistentHeaderDelegate {
   );
 
   final _avatarAlignTween =
-  AlignmentTween(begin: Alignment.bottomCenter, end: Alignment.topLeft);
+      AlignmentTween(begin: Alignment.bottomCenter, end: Alignment.topLeft);
   final _iconAlignTween =
-  AlignmentTween(begin: Alignment.bottomRight, end: Alignment.topRight);
+      AlignmentTween(begin: Alignment.bottomRight, end: Alignment.topRight);
 
   final Widget avatar;
   final String title;
   final double extent;
 
-  _TransitionAppBarDelegate({required this.avatar, required this.title, this.extent = 250})
+  _TransitionAppBarDelegate(
+      {required this.avatar, required this.title, this.extent = 250})
       : assert(extent >= 200);
 
   @override
@@ -273,9 +287,9 @@ class _TransitionAppBarDelegate extends SliverPersistentHeaderDelegate {
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
                     colors: [
-                      Colors.pink[200]!.withOpacity(0.05),
-                      Colors.pink[400]!.withOpacity(0.8),
-                    ])),
+                  Colors.pink[200]!.withOpacity(0.05),
+                  Colors.pink[400]!.withOpacity(0.8),
+                ])),
           ),
         ),
         Padding(
@@ -299,8 +313,7 @@ class _TransitionAppBarDelegate extends SliverPersistentHeaderDelegate {
             child: Padding(
               padding: const EdgeInsets.only(right: 16.0),
               child: GestureDetector(
-                onTap: () {
-                },
+                onTap: () {},
                 child: Icon(
                   Icons.search,
                   size: 30,
