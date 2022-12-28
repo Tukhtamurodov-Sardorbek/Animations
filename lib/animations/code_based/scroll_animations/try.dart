@@ -63,14 +63,13 @@ class MySliver extends SliverPersistentHeaderDelegate {
     fontWeight: FontWeight.bold,
     color: Colors.black,
   );
-  static const topMargin = 2;
   static const iconDimension = 60;
   double screenWidth;
 
   MySliver({required this.screenWidth});
 
   @override
-  double get maxExtent => kToolbarHeight + 60;
+  double get maxExtent => kToolbarHeight + 80;
 
   @override
   double get minExtent => kToolbarHeight;
@@ -79,39 +78,53 @@ class MySliver extends SliverPersistentHeaderDelegate {
   bool shouldRebuild(covariant oldDelegate) => false;
 
   @override
-  Widget build(
-      BuildContext context, double shrinkOffset, bool overlapsContent) {
+  Widget build(BuildContext context, double shrinkOffset, bool overlapsContent) {
     final calculatedPercent = shrinkOffset / (maxExtent - minExtent);
     double percent = calculatedPercent > 1 ? 1 : calculatedPercent;
 
-    return ColoredBox(
+    double pickerWidth = screenWidth - ((screenWidth - iconDimension) * percent);
+
+    return AnimatedContainer(
+      height: maxExtent,
+      duration: const Duration(milliseconds: 600),
+      constraints: BoxConstraints(
+        minHeight: minExtent,
+        maxHeight: maxExtent,
+      ),
       color: Colors.white,
       child: Stack(
         children: [
-          Align(
-            alignment: Alignment.topCenter,
-            child: Text(title, style: titleStyle),
-          ),
-          dateRangePicker(percent),
+          titleWidget(tween: percent, width: pickerWidth),
+          dateRangePicker(tween: percent, width: pickerWidth),
         ],
       ),
     );
   }
 
-  Size calculateTitleSize() {
+
+  double titleWidth() {
     final TextPainter textPainter = TextPainter(
       text: TextSpan(text: title, style: titleStyle),
       maxLines: 1,
       textDirection: TextDirection.ltr,
     )..layout(minWidth: 0, maxWidth: double.infinity);
-    return textPainter.size;
+    return textPainter.size.width;
   }
 
+  Widget titleWidget({required double width, required double tween}){
 
-  Widget dateRangePicker(double percent) {
-    double right = 16 * (1 - percent);
-    double top = kToolbarHeight - (kToolbarHeight - topMargin) * percent;
-    double width = screenWidth - ((screenWidth - iconDimension) * percent);
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 600),
+      height: kToolbarHeight,
+      alignment: tween > 0 && tween < 1 ? Alignment.centerLeft : Alignment.center,
+
+      child: Text(title, style: titleStyle),
+    );
+  }
+
+  Widget dateRangePicker({required double width, required double tween}) {
+    double right = 16 * (1 - tween);
+    double top = (maxExtent - kToolbarHeight) * (1 - tween);
 
     return Positioned(
       right: right,
