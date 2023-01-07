@@ -94,7 +94,7 @@ class MySliverAppBar extends SliverPersistentHeaderDelegate {
   double get _shrinkedTopPos => _topPadding! + shrinkedTopPos;
 
   @override
-  Widget build(context, shrinkOffset, overlapsContent) {
+  Widget build(BuildContext context, double shrinkOffset, bool overlapsContent,) {
     _topPadding ??= MediaQuery.of(context).padding.top;
     _centerX ??= MediaQuery.of(context).size.width / 2;
     _titleSize ??= _calculateTitleSize(title, titleStyle);
@@ -102,46 +102,44 @@ class MySliverAppBar extends SliverPersistentHeaderDelegate {
     double percent = shrinkOffset / (maxExtent - minExtent);
     percent = percent > 1 ? 1 : percent;
 
-    print('ShrinkOffset: $shrinkOffset');
-    print('Overlaps Content: $overlapsContent');
-    return Stack(
-      children: <Widget>[
-        _buildTitle(shrinkOffset),
-        _buildLeftImage(percent),
-        _buildRightImage(percent),
-      ],
+    return Container(
+      color: Colors.red,
+      child: Stack(
+        children: <Widget>[
+          _buildTitle(shrinkOffset),
+          _buildLeftImage(percent),
+          _buildRightImage(percent),
+        ],
+      ),
     );
   }
 
   Size _calculateTitleSize(String text, TextStyle style) {
     final TextPainter textPainter = TextPainter(
-      text: TextSpan(text: text, style: style),
-      maxLines: 1,
-      textDirection: TextDirection.ltr,
-    )..layout(minWidth: 0, maxWidth: double.infinity);
+        text: TextSpan(text: text, style: style),
+        maxLines: 1,
+        textDirection: TextDirection.ltr)
+      ..layout(minWidth: 0, maxWidth: double.infinity);
     return textPainter.size;
   }
 
   Widget _buildTitle(double shrinkOffset) => Align(
-        alignment: Alignment.topCenter,
-        child: Container(
-          padding: EdgeInsets.only(top: _topPadding!),
-          child: Opacity(
-            opacity: shrinkOffset / maxExtent,
-            child: Text(title, key: _titleKey, style: titleStyle),
-          ),
-        ),
-      );
+    alignment: Alignment.topCenter,
+    child: Padding(
+      padding: EdgeInsets.only(top: _topPadding!),
+      child: Opacity(
+        opacity: shrinkOffset / maxExtent,
+        child: Text(title, key: _titleKey, style: titleStyle),
+      ),
+    ),
+  );
 
-  double getScaledWidth(double width, double percent) =>
-      width - ((width - minWidth) * percent);
+  double getScaledWidth(double width, double percent) => width - ((width - minWidth) * percent);
 
-  double getScaledHeight(double height, double percent) =>
-      height - ((height - minHeight) * percent);
+  double getScaledHeight(double height, double percent) => height - ((height - minHeight) * percent);
 
   /// 20 is the padding between the image and the title
-  double get shrinkedHorizontalPos =>
-      (_centerX! - (_titleSize!.width / 2)) - minWidth - 20;
+  double get shrinkedHorizontalPos => (_centerX! - (_titleSize!.width / 2)) - minWidth - 20;
 
   Widget _buildLeftImage(double percent) {
     final double topMargin = minExtent;
@@ -201,8 +199,7 @@ class TransitionAppBar extends StatelessWidget {
   final String title;
   final double extent;
 
-  const TransitionAppBar(
-      {required this.avatar, required this.title, this.extent = 250, Key? key})
+  const TransitionAppBar({required this.avatar, required this.title, this.extent = 250, Key? key})
       : super(key: key);
 
   @override
@@ -226,16 +223,15 @@ class _TransitionAppBarDelegate extends SliverPersistentHeaderDelegate {
   );
 
   final _avatarAlignTween =
-      AlignmentTween(begin: Alignment.bottomCenter, end: Alignment.topLeft);
+  AlignmentTween(begin: Alignment.bottomCenter, end: Alignment.topLeft);
   final _iconAlignTween =
-      AlignmentTween(begin: Alignment.bottomRight, end: Alignment.topRight);
+  AlignmentTween(begin: Alignment.bottomRight, end: Alignment.topRight);
 
   final Widget avatar;
   final String title;
   final double extent;
 
-  _TransitionAppBarDelegate(
-      {required this.avatar, required this.title, this.extent = 250})
+  _TransitionAppBarDelegate({required this.avatar, required this.title, this.extent = 250})
       : assert(extent >= 200);
 
   @override
@@ -279,9 +275,9 @@ class _TransitionAppBarDelegate extends SliverPersistentHeaderDelegate {
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
                     colors: [
-                  Colors.pink[200]!.withOpacity(0.05),
-                  Colors.pink[400]!.withOpacity(0.8),
-                ])),
+                      Colors.pink[200]!.withOpacity(0.05),
+                      Colors.pink[400]!.withOpacity(0.8),
+                    ])),
           ),
         ),
         Padding(
@@ -305,7 +301,8 @@ class _TransitionAppBarDelegate extends SliverPersistentHeaderDelegate {
             child: Padding(
               padding: const EdgeInsets.only(right: 16.0),
               child: GestureDetector(
-                onTap: () {},
+                onTap: () {
+                },
                 child: Icon(
                   Icons.search,
                   size: 30,

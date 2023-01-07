@@ -1,57 +1,119 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:animations/animations/code_based/buttons/buttons.dart';
-import 'package:animations/animations/drawing_based/rive/rive_animation.dart';
-import 'package:animations/practice/basic/simple_container_animations.dart';
 
-class App extends StatelessWidget {
+class App extends StatefulWidget {
   const App({super.key});
+
+  @override
+  State<App> createState() => _AppState();
+}
+
+class _AppState extends State<App> with TickerProviderStateMixin {
+  late TabController tabController;
+
+  @override
+  void initState() {
+    super.initState();
+    tabController = TabController(length: 6, vsync: this);
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: SafeArea(
-          child: ListView(
-            padding: const EdgeInsets.symmetric(vertical: 12),
-            children: [
-              HorizontalScrollView(
-                header: 'Practices',
-                children: [
-                  Button(
-                    title: 'Container Animations',
-                    onTap: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (BuildContext ctx) => const SimpleContainerAnimations()));
-                    },
-                  ),
-              ],
-          ),
-              HorizontalScrollView(
-                header: 'Animations',
-                children: [
-                  Button(
-                    title: 'Button Animations',
-                    onTap: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (BuildContext ctx) => const ButtonsPage()));
-                    }
-                  ),
-              ],
-          ),
-              HorizontalScrollView(
-                header: 'Rive Animations',
-                children: [
-                  Button(
-                    title: 'Teddy Sign In',
-                    onTap: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (BuildContext ctx) => const SignInPage()));
-                    },
-                 ),
-              ],
-          ),
-            ],
-          ),
+      appBar: AppBar(
+        title: const Text('Animations'),
+        centerTitle: true,
+        bottom: TabBar(
+          controller: tabController,
+          splashFactory: NoSplash.splashFactory,
+          splashBorderRadius: BorderRadius.circular(50),
+          isScrollable: true,
+          indicatorColor: CupertinoColors.activeGreen,
+          tabs: const <Widget>[
+            Padding(
+              padding: EdgeInsets.all(14.0),
+              child: Text('TabBar 1'),
+            ),
+            Padding(
+              padding: EdgeInsets.all(14.0),
+              child: Text('TabBar 2'),
+            ),
+            Padding(
+              padding: EdgeInsets.all(14.0),
+              child: Text('TabBar 3'),
+            ),
+            Padding(
+              padding: EdgeInsets.all(14.0),
+              child: Text('TabBar 4'),
+            ),
+            Padding(
+              padding: EdgeInsets.all(14.0),
+              child: Text('TabBar 5'),
+            ),
+            Padding(
+              padding: EdgeInsets.all(14.0),
+              child: Text('TabBar 6'),
+            ),
+          ],
         ),
+      ),
+      body: TabBarView(
+        controller: tabController,
+        physics: const BouncingScrollPhysics(),
+        children: [
+          Container(color: Colors.tealAccent),
+          Container(color: Colors.green),
+          Container(color: Colors.cyanAccent),
+          Container(color: Colors.blue),
+          Container(color: Colors.red),
+          Container(color: Colors.amber),
+        ],
+      ),
     );
   }
 
+  // return Scaffold(
+  //     body: SafeArea(
+  //       child: ListView(
+  //         padding: const EdgeInsets.symmetric(vertical: 12),
+  //         children: [
+  //           HorizontalScrollView(
+  //             header: 'Practices',
+  //             children: [
+  //               Button(
+  //                 title: 'Container Animations',
+  //                 onTap: () {
+  //                   Navigator.push(context, MaterialPageRoute(builder: (BuildContext ctx) => const SimpleContainerAnimations()));
+  //                 },
+  //               ),
+  //           ],
+  //       ),
+  //           HorizontalScrollView(
+  //             header: 'Animations',
+  //             children: [
+  //               Button(
+  //                 title: 'Button Animations',
+  //                 onTap: () {
+  //                   Navigator.push(context, MaterialPageRoute(builder: (BuildContext ctx) => const ButtonsPage()));
+  //                 }
+  //               ),
+  //           ],
+  //       ),
+  //           HorizontalScrollView(
+  //             header: 'Rive Animations',
+  //             children: [
+  //               Button(
+  //                 title: 'Teddy Sign In',
+  //                 onTap: () {
+  //                   Navigator.push(context, MaterialPageRoute(builder: (BuildContext ctx) => const SignInPage()));
+  //                 },
+  //              ),
+  //           ],
+  //       ),
+  //         ],
+  //       ),
+  //     ),
+  // );
   Widget Button({required String title, void Function()? onTap}) {
     return Padding(
       padding: const EdgeInsets.all(6.0),
@@ -73,7 +135,9 @@ class HorizontalScrollView extends StatelessWidget {
   final String header;
   final List<Widget> children;
 
-  const HorizontalScrollView({Key? key, required this.header, required this.children}) : super(key: key);
+  const HorizontalScrollView(
+      {Key? key, required this.header, required this.children})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
